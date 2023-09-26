@@ -67,6 +67,8 @@ optional arguments:
 
 -pv PROJECT_VERSION,  --project-version PROJECT_VERSION Specify a project version
 
+-l LOCALE,            --locale LOCALE Specify a report locale
+
 -rf {JSON,YAML,RDF,TAGVALUE}, --report-format {JSON,YAML,RDF,TAGVALUE} Report Format
 
 -rt {VERSION_VULNERABILITY_STATUS,SBOM}, --report-type {VERSION_VULNERABILITY_STATUS,SBOM} Report Type
