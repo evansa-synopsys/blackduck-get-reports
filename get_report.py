@@ -22,9 +22,8 @@ parser.add_argument("-rf", "--report-format", default="CSV", choices=["CSV", "JS
                     help="Report Format.")
 parser.add_argument("-rt", "--report-type", default="VERSION_VULNERABILITY_STATUS",
                     choices=["VERSION_VULNERABILITY_STATUS", "SBOM"], help="Report Type")
-parser.add_argument("-st", "--sbom-type", default="SPDX_22", choices=["SPDX_22", "CYCLONEDX_13", "CYCLONEDX_14"],
-                    help="Sbom Type. Note: CYCLONEDX_* types are only compatible with report-format = JSON as of "
-                         "2022.10.x.")
+parser.add_argument("-st", "--sbom-type", default="SPDX_22", choices=["SPDX_23", "SPDX_22", "CYCLONEDX_15", "CYCLONEDX_14", "CYCLONEDX_13"],
+                    help="Sbom Type. Note: CYCLONEDX_* type reports only allow for report-format = JSON")
 parser.add_argument("-m", "--max-retries", default=5, help="Maximum number of retries before time out, default = 5")
 parser.add_argument("-w", "--wait-time", type=int, default=25, help="Time to sleep between retries (seconds).")
 parser.add_argument("-o", "--out-put-file-path", help="Specify a filepath to write the downloaded zip, "

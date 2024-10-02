@@ -73,8 +73,8 @@ optional arguments:
 
 -rt {VERSION_VULNERABILITY_STATUS,SBOM}, --report-type {VERSION_VULNERABILITY_STATUS,SBOM} Report Type
 
--st {SPDX_22,CYCLONEDX_13,CYCLONEDX_14}, --sbom-type {SPDX_22,CYCLONEDX_13,CYCLONEDX_14} Sbom Type. 
-Note: CYCLONEDX_* types are only compatible with report-format = JSON as of 2022.10.x.
+-st {SPDX_23,SPDX_22,CYCLONEDX_15,CYCLONEDX_14,CYCLONEDX_13}, --sbom-type {SPDX_23,SPDX_22,CYCLONEDX_15,CYCLONEDX_14,CYCLONEDX_13} Sbom Type. 
+    Note: CYCLONEDX_* type reports only allow for report-format = JSON
 
 -m MAX_RETRIES, --max-retries MAX_RETRIES Maximum number of retries before time out, default = 5.
 
