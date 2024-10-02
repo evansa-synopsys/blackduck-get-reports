@@ -1,5 +1,5 @@
 # blackduck-get-reports
-A program that will create and download Version Vulnerability Status Report for a specified project version to a
+A program that will create and download Version Vulnerability Status or an SBOM report for a specified project version to a
 specified path on the system. 
 
 | Filename         | Purpose                                                                                                            |
@@ -49,7 +49,7 @@ specified path on the system.
        PROJECT_VERSION [-l LOCALE] [-rf {CSV,JSON,TEXT,YAML,RDF,TAGVALUE}]
        [-rt {VERSION_VULNERABILITY_STATUS,SBOM}]
        [-st {SPDX_22,CYCLONEDX_13,CYCLONEDX_14}] [-m MAX_RETRIES]
-       [-w WAIT_TIME] [-o OUT_PUT_FILE_PATH]
+       [-w WAIT_TIME] [-o OUT_PUT_FILE_PATH] [-la]
 
 
 optional arguments:
@@ -83,6 +83,9 @@ Note: CYCLONEDX_* types are only compatible with report-format = JSON as of 2022
 -o OUT_PUT_FILE_PATH, --out-put-file-path OUT_PUT_FILE_PATH Specify a filepath to write the downloaded zip, 
                         if a valid path is not provided, the report will be
                         downloaded to the project root
+                        
+-la, --list-all       List all project and version names for target BD and
+                        exit. Default is false.
 
 ```
 
@@ -138,4 +141,10 @@ stage('Generate Report') {
 ## Sample Console Output
 ```
 MainThread:2022-12-13 22:49:22,342:INFO:Successfully downloaded /var/lib/jenkins/vulnerability-status-report-simple-maven-project-with-tests-pipeline-2.3_2022-12-13_224857.zip
+```
+
+## Basic Troubleshooting Steps
+```
+1. Enable DEBUG logging by adding -v when running the script
+2. Analyze DEBUG logging statements to gain insight into any errors that arise. 
 ```

@@ -5,21 +5,23 @@ import sys
 import time
 
 from helper import MyHub
+from blackduck import Client
 
-parser = argparse.ArgumentParser("A program that will create and download Version Vulnerability Status Report for a specified project "
-                                 "version to a specified path on the system.")
+parser = argparse.ArgumentParser(
+    "A program that will create and download Version Vulnerability Status or SBOM Report for a "
+    "specified project version to a specified path on the system.")
 
 parser.add_argument('-u', '--source-hub-url', required=True, help="Source Black Duck Hub URL")
 parser.add_argument("-t", "--source-api-token", required=True, help="Source Black Duck Api token")
 parser.add_argument("-i", "--insecure", action="store_true", help="Supress ssl warnings, default is false")
 parser.add_argument("-v", "--verbose", action="store_true", help='Turn on request DEBUG logging')
-parser.add_argument("-p", "--project", required=True, help="Specify a project")
-parser.add_argument("-pv", "--project-version", required=True, help="Specify a project version")
+parser.add_argument("-p", "--project", help="Specify a project")
+parser.add_argument("-pv", "--project-version", help="Specify a project version")
 parser.add_argument("-l", "--locale", default="en_US", help="Specify a report locale")
 parser.add_argument("-rf", "--report-format", default="CSV", choices=["CSV", "JSON", "TEXT", "YAML", "RDF", "TAGVALUE"],
                     help="Report Format.")
 parser.add_argument("-rt", "--report-type", default="VERSION_VULNERABILITY_STATUS",
-                    choices=["VERSION_VULNERABILITY_STATUS", "SBOM"],help="Report Type")
+                    choices=["VERSION_VULNERABILITY_STATUS", "SBOM"], help="Report Type")
 parser.add_argument("-st", "--sbom-type", default="SPDX_22", choices=["SPDX_22", "CYCLONEDX_13", "CYCLONEDX_14"],
                     help="Sbom Type. Note: CYCLONEDX_* types are only compatible with report-format = JSON as of "
                          "2022.10.x.")
@@ -28,6 +30,9 @@ parser.add_argument("-w", "--wait-time", type=int, default=25, help="Time to sle
 parser.add_argument("-o", "--out-put-file-path", help="Specify a filepath to write the downloaded zip, "
                                                       "if a valid path is not provided, the report will "
                                                       "be downloaded to the project root")
+parser.add_argument("-la", "--list-all", action="store_true", help='List all project and version names for target BD '
+                                                                   'and exit. Default is false.')
+
 
 args = parser.parse_args()
 logging.basicConfig(format='%(threadName)s:%(asctime)s:%(levelname)s:%(message)s', stream=sys.stderr,
@@ -35,6 +40,28 @@ logging.basicConfig(format='%(threadName)s:%(asctime)s:%(levelname)s:%(message)s
 if args.verbose:
     logging.getLogger().setLevel(logging.DEBUG)
     logging.getLogger("blackduck").setLevel(logging.DEBUG)
+
+bd = Client(
+    token=args.source_api_token,
+    base_url=args.source_hub_url,
+    verify=args.insecure  # TLS certificate verification
+)
+
+
+def list_all_projects_and_versions():
+    names = []
+    for project in bd.get_resource('projects'):
+        names.append(f"{project['name']}")
+        for version in bd.get_resource('versions', project):
+            names.append(f"     {version['versionName']}")
+    print("\n".join(names))
+
+
+if args.list_all:
+    logging.info(f"Listing all projects and versions for Target BD {args.source_hub_url}")
+    list_all_projects_and_versions()
+    sys.exit(-1)
+
 
 output_path = args.out_put_file_path
 working_dir = ""
