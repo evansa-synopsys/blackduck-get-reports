@@ -11,7 +11,7 @@ specified path on the system.
 ## Requirements
 
 - Black Duck Hub Server
-    - Solution was tested using v2022.10.x and is compatible with versions back to 2022.4.x
+    - Solution was tested on Black Duck 2024.4.1 and is compatible with versions back to 2022.4.x
 - User API token for authentication
 - Python3
 - [*blackduck*](https://pypi.org/project/blackduck/) PyPi library and possibly other python packages as specified in *requirements.txt*
